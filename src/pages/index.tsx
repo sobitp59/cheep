@@ -3,8 +3,8 @@ import Head from "next/head";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const { isLoaded, isSignedIn, user } = useUser();
+  const {data} = api.posts.getAll.useQuery();
 
   return (
     <>
@@ -17,6 +17,7 @@ export default function Home() {
         <h1>hello world!!</h1>
         <div>{!isSignedIn && <SignInButton />}</div>
         <div>{!!isSignedIn && <SignOutButton />}</div>
+        <div>{data?.map((post) => <div key={post.id}>{post.content}</div> )}</div>
       </main>
     </>
   );
